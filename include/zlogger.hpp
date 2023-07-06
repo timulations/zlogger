@@ -73,22 +73,19 @@ public:
     }
 
 private:
-    static std::mutex mtx_;
-    static level log_level_;
-    static std::ostream* os_;
+    static inline std::mutex mtx_;
+
+#ifdef RELEASE
+    static inline level log_level_ = level::info;
+#else
+    static inline level log_level_ = level::debug;
+#endif
+
+    static inline std::ostream* os_ = std::addressof(std::cout);;
 
     level curr_level_;
     std::stringstream ss_;
 };
-
-#ifdef RELEASE
-zlogger::level zlogger::log_level_ = level::info;
-#else
-zlogger::level zlogger::log_level_ = level::debug;
-#endif
-
-std::ostream* zlogger::os_ = std::addressof(std::cout);
-std::mutex zlogger::mtx_;
 
 #define LOG_TRACE if (zlogger::get_level() <= zlogger::level::trace) zlogger(zlogger::level::trace)
 #define LOG_DEBUG if (zlogger::get_level() <= zlogger::level::debug)  zlogger(zlogger::level::debug)
