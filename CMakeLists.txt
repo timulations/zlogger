@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(zlogger LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# interface library for header-only library
+add_library(libzlogger INTERFACE)
+target_include_directories(libzlogger INTERFACE include)
+
+# examples
+add_executable(log_to_console_example examples/log_to_console.cpp)
+target_link_libraries(log_to_console_example PRIVATE libzlogger)
+
+add_executable(log_to_file_example examples/log_to_file.cpp)
+target_link_libraries(log_to_file_example PRIVATE libzlogger)
+
+add_executable(switch_between_file_and_console_logging_example examples/switch_between_file_and_console_logging.cpp)
+target_link_libraries(switch_between_file_and_console_logging_example PRIVATE libzlogger)
+
+add_executable(multithreaded_logging_example examples/multithreaded_logging.cpp)
+target_link_libraries(multithreaded_logging_example PRIVATE libzlogger)
